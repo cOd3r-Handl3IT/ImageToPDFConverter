@@ -14,11 +14,18 @@ pdf_file = "Roses_Carnations_Bouquet.pdf"
 full_image_path = os.path.join(image_path, image_file)
 full_pdf_path = os.path.join(pdf_path, pdf_file)
 
-# Convert PNG to PDF using FPDF with specified dimensions in points
-pdf = FPDF(unit="pt", format=[4500, 5400])  # Portrait dimensions
-pdf.add_page()
-pdf.image(full_image_path, x=0, y=0, w=4500, h=5400)
-pdf.output(full_pdf_path)
+# Toggle: Set True for Landscape; False for Portrait
+is_landscape = False
 
-# Optionally print the output path for confirmation
-print(f"PDF saved to: {full_pdf_path}")
+# Set dimensions based on orientation toggle
+if is_landscape:
+    page_width, page_height = 5400, 4500
+else:
+    page_width, page_height = 4500, 5400
+
+# Convert PNG to PDF using FPDF with specified dimensions in points
+pdf = FPDF(unit="pt", format=[page_width, page_height])
+pdf.add_page()
+pdf.image(full_image_path, x=0, y=0, w=page_width, h=page_height)
+pdf.output(full_pdf_path)
+print(f"PDF saved to: {full_pdf_path} with {'Landscape' if is_landscape else 'Portrait'} orientation")
